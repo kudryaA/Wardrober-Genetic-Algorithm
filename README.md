@@ -13,6 +13,8 @@ val temperature = Temperature(-1.0, 4.0)
 temperature.isRain = false
 val res = geneticSolve(list, temperature)
 ```
+Test example of use https://github.com/kam123ua/Wardrober-Genetic-Algorithm/blob/master/src/test/java/Main.kt
+
 
 # Plans
 I want't to create android application. Person load photo of clothes and give information about it. After that wardrobe is full, people can get the best set for wear/
