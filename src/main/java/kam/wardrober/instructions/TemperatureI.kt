@@ -28,7 +28,7 @@ private fun get(clothes: Clothes?, temperature: Temperature): Int {
 
         for (i in Math.round(clothes.temperature!!.l).toInt()..Math.round(clothes.temperature!!.h).toInt()) {
             if (set.contains(i)) {
-                res += 5
+                res += 15
                 countT++
             }
             count++
