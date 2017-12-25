@@ -2,6 +2,7 @@ import kam.wardrober.algorithm.geneticSolve
 import kam.wardrober.struct.ListClothes
 import kam.wardrober.struct.Temperature
 import kam.wardrober.struct.clothes.*
+import kam.wardrober.struct.clothes.Set
 import kam.wardrober.struct.enums.Colors
 import kam.wardrober.struct.enums.Target
 import java.util.*
@@ -11,7 +12,7 @@ private val random = Random()
 
 fun main(args: Array<String>) {
     val list = ListClothes()
-    for (i in 0 until 100000) {
+    for (i in 0 until 200) {
         val clothes: Clothes?
         var cl = ""
         if (random.nextInt() % 2 == 0) {
@@ -39,8 +40,11 @@ fun main(args: Array<String>) {
 
     val temperature = Temperature(-1.0, 4.0)
     temperature.isRain = random.nextBoolean()
-    val res = geneticSolve(list, temperature)
-    println(res)
+    val resGenetic = geneticSolve(list, temperature)
+    val resRange = allRange(list, temperature)
+
+
+    println(resGenetic!!.getMark(temperature).toString() + "\n" + resRange!!.getMark(temperature))
 }
 
 private fun generate(clothes: Clothes): Clothes {
@@ -68,11 +72,28 @@ private fun generate(clothes: Clothes): Clothes {
     clothes.colors = ArrayList()
     val list = ArrayList<String>()
     val buf = Colors.values()
-    for (i in 0 until size) {
-        list.add(buf[i].value)
-    }
+    (0 until size).mapTo(list) { buf[it].value }
 
     clothes.colors = list
 
     return clothes
+}
+
+fun allRange(list: ListClothes, temperature: Temperature): Set? {
+    var max: Set? = Set(null, null, null, null)
+
+    list.bottomClothes.forEach { bottom ->
+        list.footwear.forEach { foot ->
+            list.headdress.forEach { head ->
+                list.topClothes.forEach { top ->
+                    val set = Set(foot, bottom,  top, head)
+                    if (set.getMark(temperature) > max!!.getMark(temperature))
+                        max = set
+                }
+            }
+        }
+    }
+
+    return max
+
 }
