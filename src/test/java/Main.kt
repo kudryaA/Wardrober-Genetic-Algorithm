@@ -12,9 +12,9 @@ private val random = Random()
 
 fun main(args: Array<String>) {
     val list = ListClothes()
-    for (i in 0 until 200) {
+    for (i in 0 until 50) {
         val clothes: Clothes?
-        var cl = ""
+        var cl: String
         if (random.nextInt() % 2 == 0) {
             if (random.nextInt() % 2 == 0) {
                 clothes = Footwear()
@@ -40,11 +40,20 @@ fun main(args: Array<String>) {
 
     val temperature = Temperature(-1.0, 4.0)
     temperature.isRain = random.nextBoolean()
+
+    var timeGenetic = System.nanoTime()
     val resGenetic = geneticSolve(list, temperature)
+    timeGenetic = System.nanoTime() - timeGenetic
+
+    var timeRange = System.nanoTime()
     val resRange = allRange(list, temperature)
+    timeRange = System.nanoTime() - timeRange
 
+    println("Genetic:\n$resGenetic\nmark = ${resGenetic!!.getMark(temperature)}\ntime = $timeGenetic\n")
+    println("Range:\n$resRange\nmark = ${resRange!!.getMark(temperature)}\ntime = $timeRange\n\n")
 
-    println(resGenetic!!.getMark(temperature).toString() + "\n" + resRange!!.getMark(temperature))
+    println("Opacity = ${resGenetic.getMark(temperature) / resRange.getMark(temperature) * 100}\n" +
+            "Time = ${timeRange.toDouble() / timeGenetic * 100}")
 }
 
 private fun generate(clothes: Clothes): Clothes {

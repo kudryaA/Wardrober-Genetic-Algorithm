@@ -17,13 +17,18 @@ fun geneticSolve(list: ListClothes, temperature: Temperature): Set? {
     var count = 0
 
     while(count < 10) {
-        gen = gen.createChildren()
         val cur = gen.getMax()
         count++
-        if (cur!= null && max!!.getMark(temperature) < cur.getMark(temperature) ) {
-            count = 0
-            max = cur
+        if (cur!= null) {
+            if(max!!.getMark(temperature) < cur.getMark(temperature) ) {
+                count = 0
+                max = cur
+            } else {
+                gen.mutation(list)
+                continue
+            }
         }
+        gen = gen.createChildren()
     }
 
     return max
@@ -41,10 +46,12 @@ private class Generation(private val temperature: Temperature) {
         val res = Generation(temperature)
         val count = list.size
 
-        val max = getMax()
+        val max = list[0]
+        res.list.add(max)
+        res.list.add(list[1])
 
-        for (i in 0 until count / 2) {
-            val set1 = Set(max!!.footwear, max.bottomClothes, list[i].topClothes, list[i].headdress)
+        for (i in 1 until count / 2) {
+            val set1 = Set(max.footwear, max.bottomClothes, list[i].topClothes, list[i].headdress)
             res.list.add(set1)
 
             val set2 = Set(list[i].footwear, list[i].bottomClothes, max.topClothes, max.headdress)
@@ -62,5 +69,42 @@ private class Generation(private val temperature: Temperature) {
     fun getMax(): Set? {
         val res = list.maxWith(comparator)
         return res
+    }
+
+    fun mutation(listC: ListClothes) {
+        val random = Random()
+        list.forEach {
+            random.nextInt()
+            val choose = Math.abs(random.nextInt()) % 4
+            when(choose) {
+                0 -> {
+                    if (listC.footwear.size > 0) {
+                        val i = Math.abs(random.nextInt()) % listC.footwear.size
+                        it.footwear = listC.footwear[i]
+                    }
+                }
+
+                1 -> {
+                    if (listC.bottomClothes.size > 0) {
+                        val i = Math.abs(random.nextInt()) % listC.bottomClothes.size
+                        it.bottomClothes = listC.bottomClothes[i]
+                    }
+                }
+
+                2 -> {
+                    if (listC.topClothes.size > 0) {
+                        val i = Math.abs(random.nextInt()) % listC.topClothes.size
+                        it.topClothes = listC.topClothes[i]
+                    }
+                }
+
+                3 -> {
+                    if (listC.headdress.size > 0) {
+                        val i = Math.abs(random.nextInt()) % listC.headdress.size
+                        it.headdress = listC.headdress[i]
+                    }
+                }
+            }
+        }
     }
 }

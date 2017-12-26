@@ -6,8 +6,8 @@ import kam.wardrober.instructions.solveTarget
 import kam.wardrober.instructions.solveTemperature
 import kam.wardrober.struct.Temperature
 
-class Set(val footwear: Footwear?, val bottomClothes: BottomClothes?,
-             val topClothes: TopClothes?, val headdress: Headdress?) {
+class Set(var footwear: Footwear?, var bottomClothes: BottomClothes?,
+          var topClothes: TopClothes?, var headdress: Headdress?) {
 
     fun getMark(currentTemperature: Temperature): Double {
         val color = solveColor(this)
