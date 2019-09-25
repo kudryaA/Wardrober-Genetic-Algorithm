@@ -13,7 +13,7 @@ val temperature = Temperature(-1.0, 4.0)
 temperature.isRain = false
 val res = geneticSolve(list, temperature)
 ```
-Test example of use https://github.com/kam123ua/Wardrober-Genetic-Algorithm/blob/master/src/test/java/Main.kt
+Test example of use https://github.com/kudryaA/Wardrober-Genetic-Algorithm/blob/master/src/test/java/Main.kt
 
 
 # Plans
